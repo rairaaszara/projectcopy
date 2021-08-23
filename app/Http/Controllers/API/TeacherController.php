@@ -25,7 +25,7 @@ class TeacherController extends Controller
     public function index()
     {
         try {
-            $data    = new TeacherCollection(Teacher::with('studentClass'));
+            $data    = new TeacherCollection(Teacher::with('studentClass')->get());
             return ApiResponse::success(self::INDEX_MESSAGE, $data);
         } catch (\Throwable $th) {
             return ApiResponse::error($th->getMessage(), $th);
@@ -40,9 +40,7 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        
-
-        }
+    }
 
     /**
      * Display the specified resource.
@@ -53,7 +51,7 @@ class TeacherController extends Controller
     public function show(Teacher $teacher)
     {
         try {
-            $data = new TeacherResource($teacher->with('studentClass'));
+            $data    = new TeacherResource($teacher);
             return ApiResponse::success(self::SHOW_MESSAGE, $data);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return ApiResponse::error($th->getMessage(),$th);
