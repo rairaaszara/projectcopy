@@ -10,6 +10,6 @@ class Major extends Model
     use HasFactory;
     public function studentClass()
     {
-        return $this->hasMany(StudentClass::class);
+        return $this->hasMany(StudentClass::class, 'studentClass_id');
     }
 }
