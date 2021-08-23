@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\StudentClass;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,11 +20,11 @@ class TeacherFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
-        return [
-          'nama_guru' => $this->faker->name(),
-          'alamat' => $this->faker->address()
-        ];
-    }
+  public function definition()
+  {
+    return [
+      'nama_guru'         => $this->faker->name(),
+      'alamat'            => $this->faker->address()
+    ];
+  }
 }

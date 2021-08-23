@@ -17,6 +17,8 @@ class CreateStudentClassesTable extends Migration
             $table->id();
             $table->string('nama_kelas');
             $table->timestamps();
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
