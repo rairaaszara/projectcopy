@@ -8,10 +8,15 @@ use App\Models\Teacher;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Helpers\ApiResponse;
-
+use App\Http\Resources\TeacherResource;
 
 class TeacherController extends Controller
 {
+    protected const INDEX_MESSAGE   = 'Succes mengambil semua data mode guru';
+    protected const SHOW_MESSAGE    = 'Succes mengambil data mode guru berdasarakan primary key nya';
+    protected const STORE_MESSAGE   = 'Succes mengambil semua data mode guru';
+    protected const UPDATE_MESSAGE  = 'Succes mengambil semua data mode guru';
+    protected const DESTROY_MESSAGE = 'Succes mengambil semua data mode guru';
     /**
      * Display a listing of the resource.
      *
@@ -20,11 +25,10 @@ class TeacherController extends Controller
     public function index()
     {
         try {
-            $teacher = Teacher::all();
-            $data    = new TeacherCollection($teacher);
-            return ApiResponse::success("sukses mengambil data guru", $teacher);
+            $data    = new TeacherCollection(Teacher::with('studentClass'));
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
         } catch (\Throwable $th) {
-            return ApiResponse::error($th->getMessage(),$th);
+            return ApiResponse::error($th->getMessage(), $th);
         }
     }
 
@@ -49,8 +53,8 @@ class TeacherController extends Controller
     public function show(Teacher $teacher)
     {
         try {
-            $teacher->load('studentClass');
-            return ApiResponse::success("sukses mengambil data guru",$teacher);
+            $data = new TeacherResource($teacher->with('studentClass'));
+            return ApiResponse::success(self::SHOW_MESSAGE, $data);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
             return ApiResponse::error($th->getMessage(),$th);
         }
