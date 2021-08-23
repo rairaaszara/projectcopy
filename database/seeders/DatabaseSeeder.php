@@ -17,8 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        // membuat 10 guru masing masing mempunyai 1 kelas
-        Teacher::factory()->has(StudentClass::factory())->count(100)->create();
+       // membuat 10 guru masing masing mempunyai 1 kelas
+       Teacher::factory()->has(StudentClass::factory())->count(100)->create();
+       Student::factory()->has(StudentClass::factory())->count(100)->create();
+       Major::factory()->has(StudentClass::factory())->count(100)->create();
     }
 }
