@@ -7,15 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentClass extends Model
 {
-   use HasFactory;
+    use HasFactory;
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
 
-   public function teacher()
-   {
-       return $this->hasOne(Teacher::class, 'teacher_id');
-   }
+    public function major()
+    {
+        return $this->belongsTo(Major::class, 'major_id');
+    }
 
-   public function majors()
-   {
-       return $this->hasMany(Major::class);
-   }
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
 }

@@ -51,9 +51,9 @@ Route::delete('/siswa/{id}', '\App\Http\Controllers\SiswaController@delete');
 
 
 //routes
-Route::apiResource('student', StudentController::class);
-Route::apiResource('teacher', TeacherController::class);
-Route::apiResource('major', MajorController::class);
-Route::apiResource('studentClass', StudentClassController::class);
+Route::apiResource('students', StudentController::class);
+Route::apiResource('teachers', TeacherController::class);
+Route::apiResource('majors', MajorController::class);
+Route::apiResource('student-classes', StudentClassController::class);
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:api');

@@ -27,11 +27,7 @@ class StudentClassFactory extends Factory
         return [
 
             'nama_kelas' => $this->faker->name(),
-            'teacher_id' => Teacher::factory(),
-            'student_id' => Student::factory(),
-            'major_id' => Major::factory()
-            
-
+            'teacher_id' => Teacher::factory()
         ];
     }
 }

@@ -17,14 +17,15 @@ class CreateStudentClassesTable extends Migration
             $table->id();
             $table->string('nama_kelas');
             $table->timestamps();
+            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->unsignedBigInteger('teacher_id')->nullable;
-            $table->unsignedBigInteger('student_id')->nullable;
-            $table->unsignedBigInteger('major_id')->nullable;
+            $table->unsignedBigInteger('student_id')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->foreign('teacher_id')->references('id')->on('teachers');
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->foreign('major_id')->references('id')->on('majors');
+            $table->unsignedBigInteger('major_id')->nullable();
+            $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 

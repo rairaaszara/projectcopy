@@ -18,7 +18,6 @@ class CreateTeachersTable extends Migration
             $table->string('nama_guru');
             $table->string('alamat');
             $table->timestamps();
-
         });
     }
 
