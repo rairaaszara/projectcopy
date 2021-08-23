@@ -22,7 +22,7 @@ class TeacherController extends Controller
         try {
             $teacher = Teacher::all();
             $data    = new TeacherCollection($teacher);
-            return ApiResponse::success("sukses mengambil data guru",$teacher);
+            return ApiResponse::success("sukses mengambil data guru", $teacher);
         } catch (\Throwable $th) {
             return ApiResponse::error($th->getMessage(),$th);
         }
