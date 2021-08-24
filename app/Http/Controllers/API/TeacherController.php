@@ -40,6 +40,15 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_guru' => 'required',
+            'alamat' => 'required'
+        ]);
+
+        Teacher::create($request->all());
+
+        return redirect()->route('teacher::class')
+        ->with('success', 'Teacher created Successfully.');
     }
 
     /**
@@ -59,6 +68,17 @@ class TeacherController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Teacher  $teacher
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Teacher $teacher)
+    {
+        Teacher::find($teacher);
+        return view('teacher.edit', compact('user'));
+    }
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,7 +87,15 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        //
+        $request->validate([
+            'nama_guru' => 'required',
+            'alamat' => 'required'
+        ]);
+
+        Teacher::find($teacher)->update($request->all());
+
+        return redirect()->route('teacher::class')
+        ->with('success', 'Teacher updated Successfully.');
     }
 
     /**
@@ -78,6 +106,9 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        Teacher::find($teacher)->delete();
+
+        return redirect()->route('teacher::class')
+        ->with('success', 'Teacher deleted Successfully.');
     }
 }
