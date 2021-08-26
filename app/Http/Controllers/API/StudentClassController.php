@@ -15,7 +15,7 @@ class StudentClassController extends Controller
      */
     public function index()
     {
-        //
+        return StudentClass::all();
     }
 
     /**
@@ -26,7 +26,11 @@ class StudentClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $studentClass = new StudentClass();
+        $studentClass->nama_kelas = $request->nama_kelas;
+        $studentClass->save();
+
+        return "Data Berhasil Ditambahkan";
     }
 
     /**
@@ -47,9 +51,19 @@ class StudentClassController extends Controller
      * @param  \App\Models\StudentClass  $studentClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StudentClass $studentClass)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama_kelas' => 'required'
+        ]);
+
+         $nama_kelas = $request->nama_kelas;
+
+         $studentClass = StudentClass::find($id);
+         $studentClass->nama_kelas = $nama_kelas;
+         $studentClass->save();
+
+         return "Data Berhasil di Update!";
     }
 
     /**
@@ -60,6 +74,8 @@ class StudentClassController extends Controller
      */
     public function destroy(StudentClass $studentClass)
     {
-        //
+       StudentClass::destroy($studentClass->id);
+
+        return "Data Berhasil di Hapus";
     }
 }

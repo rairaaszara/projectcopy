@@ -56,4 +56,29 @@ Route::apiResource('teachers', TeacherController::class);
 Route::apiResource('majors', MajorController::class);
 Route::apiResource('student-classes', StudentClassController::class);
 
-Route::apiResource('projects', ProjectController::class)->middleware('auth:api');
+//route teacher
+Route::get('teachers', [TeacherController::class, 'index']);
+Route::post('teachers', [TeacherController::class, 'store']);
+Route::put('/teachers/{id}', [TeacherController::class, 'update']);
+Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy']);
+
+//route major
+Route::get('majors', [MajorController::class, 'index']);
+Route::post('majors', [MajorController::class, 'store']);
+Route::put('/majors/{id}', [MajorController::class, 'update']);
+Route::delete('/majors/{major}', [MajorController::class, 'destroy']);
+
+//route student
+Route::get('students', [StudentController::class, 'index']);
+Route::post('students', [StudentController::class, 'store']);
+Route::put('/students/{id}', [StudentController::class, 'update']);
+Route::delete('/students/{student}', [StudentController::class, 'destroy']);
+
+//route student class
+Route::get('student_classes', [StudentClassController::class, 'index']);
+Route::post('student_classes', [StudentClassController::class, 'store']);
+Route::put('/student_classes/{id}', [StudentClassController::class, 'update']);
+Route::delete('/student_classes/{studentClass}', [StudentClassController::class, 'destroy']);
+
+
+Route::apiResource('projects', ProjectController::class)->middleware('auth:api'); 
