@@ -17,6 +17,7 @@ class TeacherController extends Controller
     protected const STORE_MESSAGE   = 'Succes mengambil semua data mode guru';
     protected const UPDATE_MESSAGE  = 'Succes mengambil semua data mode guru';
     protected const DESTROY_MESSAGE = 'Succes mengambil semua data mode guru';
+
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +25,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
+        $teacher = Teacher::all();
+        return Teacher::all();
         try {
             $data    = new TeacherCollection(Teacher::with('studentClass')->get());
             return ApiResponse::success(self::INDEX_MESSAGE, $data);
@@ -40,16 +43,14 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_guru' => 'required',
-            'alamat' => 'required'
-        ]);
+        $teacher = new Teacher;
+        $teacher->nama_guru = $request->nama_guru;
+        $teacher->alamat = $request->alamat;
+        $teacher->save();
 
-        Teacher::create($request->all());
-
-        return redirect()->route('teacher::class')
-        ->with('success', 'Teacher created Successfully.');
+        return "Data Berhasil di Tambahkan!";
     }
+
 
     /**
      * Display the specified resource.
@@ -59,6 +60,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
+        return $teacher;
         try {
             $data    = new TeacherResource($teacher);
             return ApiResponse::success(self::SHOW_MESSAGE, $data);
@@ -75,8 +77,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        Teacher::find($teacher);
-        return view('teacher.edit', compact('user'));
+        
     }
     /**
      * Update the specified resource in storage.
@@ -85,17 +86,22 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nama_guru' => 'required',
             'alamat' => 'required'
         ]);
 
-        Teacher::find($teacher)->update($request->all());
+         $nama_guru = $request->nama_guru;
+         $alamat = $request->alamat;
 
-        return redirect()->route('teacher::class')
-        ->with('success', 'Teacher updated Successfully.');
+         $teacher = Teacher::find($id);
+         $teacher->nama_guru = $nama_guru;
+         $teacher->alamat = $alamat;
+         $teacher->save();
+
+         return "Data Berhasil di Update!";
     }
 
     /**
@@ -106,9 +112,9 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        Teacher::find($teacher)->delete();
 
-        return redirect()->route('teacher::class')
-        ->with('success', 'Teacher deleted Successfully.');
+        Teacher::destroy($teacher->id);
+
+        return "Data Berhasil di Hapus";
     }
 }
