@@ -46,9 +46,14 @@ class StudentController extends Controller
         $student = new Student;
         $student->nama_siswa = $request->nama_siswa;
         $student->alamat = $request->alamat;
-
         $student->save();
-        return "Data Berhasil Ditambahkan";
+
+        try {
+            $data    = new StudentCollection(Student::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -90,7 +95,12 @@ class StudentController extends Controller
          $student->alamat = $alamat;
          $student->save();
 
-         return "Data Berhasil di Update!";
+         try {
+            $data    = new StudentCollection(Student::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -103,6 +113,11 @@ class StudentController extends Controller
     {
         Student::destroy($student->id);
 
-        return "Data Berhasil di Hapus";
+        try {
+            $data    = new StudentCollection(Student::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 }

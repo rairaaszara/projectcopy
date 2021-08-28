@@ -80,5 +80,9 @@ Route::post('student_classes', [StudentClassController::class, 'store']);
 Route::put('/student_classes/{id}', [StudentClassController::class, 'update']);
 Route::delete('/student_classes/{studentClass}', [StudentClassController::class, 'destroy']);
 
+//route ajax
+Route::get('/users', 'AjaxController@index');
+Route::get('/getData/{id}','AjaxController@getData');
+
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:api'); 

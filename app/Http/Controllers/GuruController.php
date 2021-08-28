@@ -19,13 +19,5 @@ class GuruController extends Controller{
     return view('get-ajax-data');
   }
 
-  public function getData($id = 0){
-    if($id==0){
-      $arr['data'] = User::orderBy('id', 'asc')->get();
-      }else{
-        $arr['data'] = User::where('id', $id)->first();
-      }
-      echo json_encode($arr);
-      exit;
-  }
+
 }

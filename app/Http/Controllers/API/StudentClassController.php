@@ -3,11 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StudentClassCollection;
 use App\Models\StudentClass;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+use App\Helpers\ApiResponse;
+use App\Http\Resources\StudentClassResource;
 
 class StudentClassController extends Controller
 {
+    protected const INDEX_MESSAGE   = 'Succes mengambil semua data mode guru';
+    protected const SHOW_MESSAGE    = 'Succes mengambil data mode guru berdasarakan primary key nya';
+    protected const STORE_MESSAGE   = 'Succes mengambil semua data mode guru';
+    protected const UPDATE_MESSAGE  = 'Succes mengambil semua data mode guru';
+    protected const DESTROY_MESSAGE = 'Succes mengambil semua data mode guru';
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +26,13 @@ class StudentClassController extends Controller
     public function index()
     {
         return StudentClass::all();
+
+        try {
+            $data    = new StudentClassCollection(StudentClass::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -30,7 +47,14 @@ class StudentClassController extends Controller
         $studentClass->nama_kelas = $request->nama_kelas;
         $studentClass->save();
 
-        return "Data Berhasil Ditambahkan";
+               
+        try {
+            $data    = new StudentClassCollection(StudentClass::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
+
     }
 
     /**
@@ -63,7 +87,13 @@ class StudentClassController extends Controller
          $studentClass->nama_kelas = $nama_kelas;
          $studentClass->save();
 
-         return "Data Berhasil di Update!";
+         
+        try {
+            $data    = new StudentClassCollection(StudentClass::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -76,6 +106,12 @@ class StudentClassController extends Controller
     {
        StudentClass::destroy($studentClass->id);
 
-        return "Data Berhasil di Hapus";
+        
+       try {
+        $data    = new StudentClassCollection(StudentClass::with('studentClass')->get());
+        return ApiResponse::success(self::INDEX_MESSAGE, $data);
+    } catch (\Throwable $th) {
+        return ApiResponse::error($th->getMessage(), $th);
+    }
     }
 }

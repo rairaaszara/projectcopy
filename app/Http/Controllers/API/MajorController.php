@@ -48,7 +48,13 @@ class MajorController extends Controller
         $major = new Major;
         $major->nama_jurusan = $request->nama_jurusan;
         $major->save();
-        return "Data Berhasil Ditambahkan";
+
+        try {
+            $data    = new MajorCollection(Major::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -87,7 +93,12 @@ class MajorController extends Controller
          $major->nama_jurusan = $nama_jurusan;
          $major->save();
 
-         return "Data Berhasil di Update!";
+         try {
+            $data    = new MajorCollection(Major::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -100,6 +111,11 @@ class MajorController extends Controller
     {
        Major::destroy($major->id);
 
-        return "Data Berhasil di Hapus";
+       try {
+        $data    = new MajorCollection(Major::with('studentClass')->get());
+        return ApiResponse::success(self::INDEX_MESSAGE, $data);
+    } catch (\Throwable $th) {
+        return ApiResponse::error($th->getMessage(), $th);
+    }
     }
 }

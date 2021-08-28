@@ -1,17 +1,17 @@
 <!doctype html>
 <html>
 <body>
-<input type='text' id='search' name='search' placeholder='Enter kelasid 1-27'>
+<input type='text' id='search' name='search' placeholder='Enter userid 1-27'>
 <input type='button' value='Search' id='btnSearch'>
 <br/>
 <input type='button' value='Fetch all records' id='fetchAllRecord'>
-<table border='1' id='kelasTable' style='border-collapse: collapse;'>
+<table border='1' id='userTable' style='border-collapse: collapse;'>
 <thead>
 <tr>
-<th>Id_Kelas</th>
-<th>Nama_Kelas</th>
-<th>Nama_Jurusan</th>
-<th>Wali_Kelas</th>
+<th>id</th>
+<th>nama_kelas</th>
+<th>nama_jurusan</th>
+<th>wali_kelas</th>
 </tr>
 </thead>
 <tbody></tbody>
@@ -24,54 +24,52 @@ $(document).ready(function(){
 $('#fetchAllRecord').click(function(){
 fetchRecords(0);
 });
-// Search by kelasid
+// Search by userid
 $('#btnSearch').click(function(){
-var kelasid = Number($('#search').val().trim());
-if(kelasid > 0){
-fetchRecords(kelasid);
+var userid = Number($('#search').val().trim());
+if(userid > 0){
+fetchRecords(userid);
 }
 });
 });
-function fetchRecords(id_kelas){
+function fetchRecords(id){
 $.ajax({
-url: 'kelas/{id}'+id_kelas,
+url: 'getData/'+id,
 type: 'get',
 dataType: 'json',
 success: function(response){
-    console.log(response);
 var len = 0;
-$('#kelasTable tbody').empty(); // Empty <tbody>
+$('#userTable tbody').empty(); // Empty <tbody>
 if(response['data'] != null){
-    len = response['data'].length;
+len = response['data'].length;
 }
 if(len > 0){
 for(var i=0; i<len; i++){
-    console.log(i);
-var id_kelas = response['data'][i].id_kelas;
-var nama_kelas = response['data'][i].nama_kelas;
-var nama_jurusan = response['data'][i].nama_jurusan;
-var wali_kelas = response['data'][i].wali_kelas;
+var id = response['data'][i].id;
+var username = response['data'][i].username;
+var name = response['data'][i].name;
+var email = response['data'][i].email;
 var tr_str = "<tr>" +
 "<td align='center'>" + (i+1) + "</td>" +
-"<td align='center'>" + nama_kelas + "</td>" +
-"<td align='center'>" + nama_jurusan + "</td>" +
-"<td align='center'>" + wali_kelas + "</td>" +
+"<td align='center'>" + username + "</td>" +
+"<td align='center'>" + name + "</td>" +
+"<td align='center'>" + email + "</td>" +
 "</tr>";
-$("#kelasTable tbody").append(tr_str);
+$("#userTable tbody").append(tr_str);
 }
 }else if(response['data'] != null){
 var tr_str = "<tr>" +
 "<td align='center'>1</td>" +
-"<td align='center'>" + response['data'].nama_kelas + "</td>" + 
-"<td align='center'>" + response['data'].nama_jurusan + "</td>" +
-"<td align='center'>" + response['data'].wali_kelas + "</td>" +
+"<td align='center'>" + response['data'].username + "</td>" + 
+"<td align='center'>" + response['data'].name + "</td>" +
+"<td align='center'>" + response['data'].email + "</td>" +
 "</tr>";
-$("#kelasTable tbody").append(tr_str);
+$("#userTable tbody").append(tr_str);
 }else{
 var tr_str = "<tr>" +
 "<td align='center' colspan='4'>No record found.</td>" +
 "</tr>";
-$("#kelasTable tbody").append(tr_str);
+$("#userTable tbody").append(tr_str);
 }
 }
 });

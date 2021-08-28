@@ -48,7 +48,12 @@ class TeacherController extends Controller
         $teacher->alamat = $request->alamat;
         $teacher->save();
 
-        return "Data Berhasil di Tambahkan!";
+        try {
+            $data    = new TeacherCollection(Teacher::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
 
@@ -101,7 +106,12 @@ class TeacherController extends Controller
          $teacher->alamat = $alamat;
          $teacher->save();
 
-         return "Data Berhasil di Update!";
+         try {
+            $data    = new TeacherCollection(Teacher::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 
     /**
@@ -115,6 +125,11 @@ class TeacherController extends Controller
 
         Teacher::destroy($teacher->id);
 
-        return "Data Berhasil di Hapus";
+        try {
+            $data    = new TeacherCollection(Teacher::with('studentClass')->get());
+            return ApiResponse::success(self::INDEX_MESSAGE, $data);
+        } catch (\Throwable $th) {
+            return ApiResponse::error($th->getMessage(), $th);
+        }
     }
 }
